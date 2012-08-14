@@ -38,3 +38,11 @@ function Invoke-VBoxManage
   & $VBoxManage $command $virtualMachine $arguments
 }
 
+function Get-VirtuamBoxVirtualMachine
+{
+  param
+  (
+    [Parameter(Mandatory=$true)] [string] $machineSearch
+  )
+  Invoke-VBoxManage list vms
+}
