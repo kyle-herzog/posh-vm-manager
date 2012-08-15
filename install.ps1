@@ -3,7 +3,8 @@ $fileName =
   powershellModulePath = "Documents\WindowsPowerShell\Modules\VirtualMachineManagement"
 }
 
-function New-Symlink {
+function New-Symlink
+{
   <#
   .SYNOPSIS
     Creates a symbolic link.
@@ -19,7 +20,8 @@ function New-Symlink {
   Invoke-MKLINK @psBoundParameters -Symlink
 }
 
-function New-Hardlink {
+function New-Hardlink
+{
   <#
   .SYNOPSIS
     Creates a hard link.
@@ -35,7 +37,8 @@ function New-Hardlink {
   Invoke-MKLINK @psBoundParameters -HardLink
 }
 
-function New-Junction {
+function New-Junction
+{
   <#
   .SYNOPSIS
     Creates a directory junction.
@@ -51,7 +54,8 @@ function New-Junction {
   Invoke-MKLINK @psBoundParameters -Junction
 }
 
-function Invoke-MKLINK {
+function Invoke-MKLINK
+{
   <#
   .SYNOPSIS
     Creates a symbolic link, hard link, or directory junction.
@@ -151,9 +155,6 @@ function Install-VirtualMachineManagement
   }
 
   $dotFile = Get-CurrentScriptPath
-
-  write-host $userpsmodules
-  write-host $dotFile
 
   New-Junction $userpsmodules $dotFile -Force | Out-Null
   Write-Host "done" -ForegroundColor DarkGreen
