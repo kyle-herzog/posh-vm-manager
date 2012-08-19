@@ -1,6 +1,19 @@
 $defaultVMSystem = 'VirtualBox'
 
-. (Join-Path (Split-Path $MyInvocation.MyCommand.Path) "VirtualBoxMachineManagement.ps1")
+function Get-CurrentScriptPath
+{
+  Split-Path $myInvocation.ScriptName
+}
+
+function Get-CurrentScriptName
+{
+  (Get-Item ($myInvocation.ScriptName)).BaseName
+}
+
+function Get-VirtalMachineManagementSystems
+{
+  Get-Item "*$(Get-CurrentScriptName).ps1"
+}
 
 function Set-VirtualMachineSystem
 {
@@ -32,15 +45,15 @@ function Shutdown-VirtualMachine
 }
 Set-Alias Shutdown-VM Shutdown-VirtualMachine
 
-function Control-VirtualMachine
+function Send-VirtualMachineCommand
 {
   param
   (
     [Parameter(Mandatory=$false)] [string] $vmsystem = $defaultVMSystem
   )
-  & "Control-$($vmsystem)VirtualMachine"
+  & "Send-$($vmsystem)VirtualMachineCommand"
 }
-Set-Alias Control-VM Control-VirtualMachine
+Set-Alias Send-VMCommand Sned-VirtualMachineCommand
 
 function Get-VirtualMachine
 {
@@ -48,8 +61,13 @@ function Get-VirtualMachine
   (
     [Parameter(Mandatory=$false)] [string] $machineSearch = "*"
   )
-  & "Get$($vmsystem)VirtualMachine" $machineSearch
+  & "Get-$($vmsystem)VirtualMachine" $machineSearch
 }
 Set-Alias Get-VM Get-VirtualMachine
 
 
+$virtualMachineManagementSystems = Get-VirtalMachineManagementSystems
+$virtualMachineManagementSystems | Foreach-Object {
+  Write-Host "Loading VirtualMachineManamgentSystem - " $_.BaseName
+  . $_
+}

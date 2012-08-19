@@ -4,6 +4,17 @@ if(!(Test-Path $VBoxManage))
   $VBoxManage = 'VBoxManage.exe'
 }
 
+function Invoke-VBoxManage
+{
+  param
+  (
+    [Parameter(Mandatory=$true)][string]$command,
+    [Parameter(Mandatory=$true)][string]$virtualMachine,
+    [Parameter(Mandatory=$false)][string]$arguments
+  )
+  & $VBoxManage $command $virtualMachine $arguments
+}
+
 function Start-VirtualBoxVirtualMachine
 {
   Write-Host "starting virtualbox virtual machine"
@@ -27,17 +38,6 @@ function Shutdown-VirtualBoxVirtualMachine
   Invoke-VBoxManage 'controlvm' $virtualMachine 'shutdown', $arguments
 }
 
-function Invoke-VBoxManage
-{
-  param
-  (
-    [Parameter(Mandatory=$true)][string]$command,
-    [Parameter(Mandatory=$true)][string]$virtualMachine,
-    [Parameter(Mandatory=$false)][string]$arguments
-  )
-  & $VBoxManage $command $virtualMachine $arguments
-}
-
 function Get-VirtuamBoxVirtualMachine
 {
   param
@@ -46,3 +46,12 @@ function Get-VirtuamBoxVirtualMachine
   )
   Invoke-VBoxManage list vms
 }
+
+<#function Send-VirtualBoxVirtualMachineCommand
+{
+  param
+  (
+
+  )
+  Invoke-VBoxManage 
+}#>
